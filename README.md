@@ -1,7 +1,8 @@
 helloworld.h
 =
 
-Another stargazer programming language. writing with node.js
+Another stargazer, half-scripting, smart programming language. h -> js -> node.
+
 Began only a few syntax idea. I don't know how to proceed. Just fun.
 
 ### HEP-0 ###
