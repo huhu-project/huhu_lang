@@ -1,4 +1,5 @@
 huhu
 =
 
-simple programming language for kids
+simple scripting language for kids
+
