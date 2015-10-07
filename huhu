@@ -3,25 +3,29 @@
 
 import sys, os
 
-def syntax(source):
-    return source.replace("\t","    ")
-
 def read(line):
     return line
 
 def parser(source):
-    return syntax(source)
+    return [read(line) for line in source.split("\n") if line != '']
 
 def huhu():
+    if "huhu" in sys.argv:
+        sys.argv.remove('huhu')
     if len(sys.argv[1:]) > 0:
         for i in xrange(len(sys.argv[1:])):
             file_path = "%s/%s" % (os.getcwd(),sys.argv[1:][i])
+            if not file_path[-5:] == '.huhu':
+                print "dosya uzantısı .huhu olmalıdır"
+                break
             try:
                 source = open(file_path).read()
-                print parser(source)
             except:
                 print "dosyayı bulamadım (%s)" % file_path
-        
+                break
+            for result in parser(source):
+                #eval(("%s" % result))
+                print result
     else:
         print "huhu!"
 
