@@ -3,10 +3,25 @@
 
 import sys, os
 
+def syntax(source):
+    return source.replace("\t","    ")
+
+def read(line):
+    return line
+
+def parser(source):
+    return syntax(source)
+
 def huhu():
     if len(sys.argv[1:]) > 0:
         for i in xrange(len(sys.argv[1:])):
-            print "%s/%s" % (os.getcwd(),sys.argv[1:][i])
+            file_path = "%s/%s" % (os.getcwd(),sys.argv[1:][i])
+            try:
+                source = open(file_path).read()
+                print parser(source)
+            except:
+                print "dosyayı bulamadım (%s)" % file_path
+        
     else:
         print "huhu!"
 
