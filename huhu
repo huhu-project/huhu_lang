@@ -4,17 +4,35 @@
 import sys
 import os
 
+exec_scope = {}
+
 
 def _equal(command):
-    variable = command.split('=')
-    return '%s = "%s";' % (variable[0].strip(), variable[1].strip())
+    variable = command.replace(' =', '=').replace('= ', '=').split('=')
+    if len(variable) > 0:
+        exec_scope[variable[0].strip()] = variable[1].strip()
+        return '%s = "%s";' % (variable[0].strip(), variable[1].strip())
+    else:
+        return {'error': 101}
+
+
+def _write(command):
+    variable_name = command.split('yaz')[1].strip()
+    if variable_name in exec_scope:
+        return exec_scope[variable_name]
+    else:
+        return {'error': 101}
 
 
 def read(line):
     if "=" in line:
         equal = _equal(line)
-        if not equal == False:
+        if not 'error' in equal:
             exec(equal)
+    elif line[:3] == 'yaz':
+        write = _write(line)
+        if not 'error' in write:
+            return write
     else:
         return line
 
@@ -35,7 +53,7 @@ def huhu():
             try:
                 source = open(file_path).read()
             except:
-                print("dosyayı bulamadım (%s)") % file_path
+                print("dosyayı bulamadım")
                 break
             for result in parser(source):
                 if isinstance(result, str):
@@ -47,7 +65,8 @@ def huhu():
             if command.strip() == "çık":
                 print("güle güle :)")
                 break
-            print(read(command))
+            if isinstance(command, str):
+                print(read(command))
 
 if __name__ == "__main__":
     huhu()
