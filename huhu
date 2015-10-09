@@ -29,9 +29,9 @@ def huhu():
     else:
         print "huhu!"
         while True:
-            command  = raw_input('> ')
+            command  = raw_input('>>> ')
             if command.strip() == "çık":
-                print "güle güle ^^"
+                print "güle güle :)"
                 break
             print command
 if __name__ == "__main__":
