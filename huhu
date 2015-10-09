@@ -1,38 +1,53 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 #-*- coding:utf-8 -*-
 
-import sys, os
+import sys
+import os
+
+
+def _equal(command):
+    variable = command.split('=')
+    return '%s = "%s";' % (variable[0].strip(), variable[1].strip())
+
 
 def read(line):
-    return line
+    if "=" in line:
+        equal = _equal(line)
+        if not equal == False:
+            exec(equal)
+    else:
+        return line
+
 
 def parser(source):
     return [read(line) for line in source.split("\n") if line != '']
+
 
 def huhu():
     if "huhu" in sys.argv:
         sys.argv.remove('huhu')
     if len(sys.argv[1:]) > 0:
-        for i in xrange(len(sys.argv[1:])):
-            file_path = "%s/%s" % (os.getcwd(),sys.argv[1:][i])
+        for i in range(len(sys.argv[1:])):
+            file_path = "%s/%s" % (os.getcwd(), sys.argv[1:][i])
             if not file_path[-5:] == '.huhu':
-                print "dosya uzantısı .huhu olmalıdır"
+                print("dosya uzantısı .huhu olmalıdır")
                 break
             try:
                 source = open(file_path).read()
             except:
-                print "dosyayı bulamadım (%s)" % file_path
+                print("dosyayı bulamadım (%s)") % file_path
                 break
             for result in parser(source):
-                #eval(("%s" % result))
-                print result
+                if isinstance(result, str):
+                    print(result)
     else:
-        print "huhu!"
+        print("huhu!")
         while True:
-            command  = raw_input('>>> ')
+            command = input('>>> ')
             if command.strip() == "çık":
-                print "güle güle :)"
+                print("güle güle :)")
                 break
-            print command
+            print(read(command))
+
 if __name__ == "__main__":
     huhu()
