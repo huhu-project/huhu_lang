@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 #-*- coding:utf-8 -*-
 
 import sys, os
@@ -28,6 +28,11 @@ def huhu():
                 print result
     else:
         print "huhu!"
-
+        while True:
+            command  = raw_input('> ')
+            if command.strip() == "çık":
+                print "güle güle ^^"
+                break
+            print command
 if __name__ == "__main__":
     huhu()
