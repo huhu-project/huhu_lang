@@ -11,7 +11,6 @@ def _equal(command):
     variable = command.replace(' =', '=').replace('= ', '=').split('=')
     if len(variable) > 0:
         exec_scope[variable[0].strip()] = variable[1].strip()
-        return '%s = "%s";' % (variable[0].strip(), variable[1].strip())
     else:
         return {'error': 101}
 
@@ -26,9 +25,7 @@ def _write(command):
 
 def read(line):
     if "=" in line:
-        equal = _equal(line)
-        if not 'error' in equal:
-            exec(equal)
+        _equal(line)
     elif line[:3] == 'yaz':
         write = _write(line)
         if not 'error' in write:
@@ -46,7 +43,10 @@ def huhu():
         sys.argv.remove('huhu')
     if len(sys.argv[1:]) > 0:
         for i in range(len(sys.argv[1:])):
-            file_path = "%s/%s" % (os.getcwd(), sys.argv[1:][i])
+            if sys.argv[1:][i][0] == "/":
+                file_path = sys.argv[1:][i]
+            else:
+                file_path = "%s/%s" % (os.getcwd(), sys.argv[1:][i])
             if not file_path[-5:] == '.huhu':
                 print("dosya uzantısı .huhu olmalıdır")
                 break
@@ -66,7 +66,9 @@ def huhu():
                 print("güle güle :)")
                 break
             if isinstance(command, str):
-                print(read(command))
+                result = read(command)
+                if result:
+                    print(result)
 
 if __name__ == "__main__":
     huhu()
