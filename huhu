@@ -23,9 +23,35 @@ def _write(command):
         return {'error': 101}
 
 
+def _plus(command):
+    """ iki ve daha fazla sayıda integer toplanmak üzere gelirse
+        ögeler ile klasik toplama işlemi yapılıp geri döndürülür.
+        ögelerden biri string ise toplama mantığından çıkılıp
+        tüm öğeler string olarak değerlendirilir, birleştirilir
+        ve geri döndürülür.
+    """
+    params = command.replace(' +', '+').replace('+ ', '+').split('+')
+    all_integer = True
+    for param in params:
+        if not isinstance(param, int):
+            all_integer = False
+    if all_integer:
+        to_run = params[0]
+        for param in params[1:]:
+            to_run = to_run + "+" + param
+        return eval(to_run)
+    else:
+        to_run = params[0]
+        for param in params[1:]:
+            to_run = to_run + param
+        return to_run
+
+
 def read(line):
     if "=" in line:
         _equal(line)
+    if "+" in line:
+        print(_plus(line))
     elif line[:3] == 'yaz':
         write = _write(line)
         if not 'error' in write:
