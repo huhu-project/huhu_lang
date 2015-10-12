@@ -13,60 +13,20 @@ syntax = {
 }
 
 
-def _equal(command):
-    variable = command.replace(' =', '=').replace('= ', '=').split('=')
-    if len(variable) > 0:
-        globals()[variable[0].strip()] = variable[1].strip()
+def _print(value):
+    if value[0:3] == "yaz":
+        key = value.split('yaz')[1].strip()
+        if value.split('yaz')[1].strip() in globals():
+            print(globals()[key])
     else:
-        return {'error': 101}
-
-
-def _plus(command):
-    """ iki ve daha fazla sayıda integer toplanmak üzere gelirse
-        ögeler ile klasik toplama işlemi yapılıp geri döndürülür.
-        ögelerden biri string ise toplama mantığından çıkılıp
-        tüm öğeler string olarak değerlendirilir, birleştirilir
-        ve geri döndürülür.
-    """
-    params = command.replace(' +', '+').replace('+ ', '+').split('+')
-    for param in params:
-        try:
-            param = int(param)
-        except:
-            pass
-    all_integer = True
-    for param in params:
-        if not isinstance(param, int):
-            all_integer = False
-    if all_integer:
-        to_run = params[0]
-        for param in params[1:]:
-            to_run = to_run + "+" + param
-        return eval(to_run)
-    else:
-        to_run = params[0]
-        for param in params[1:]:
-            to_run = to_run + param
-        return to_run
-
-
-def _print(line):
-    val = line.split('yaz')[1].strip()
-    if val in globals():
-        print(globals()[val])
-    else:
-        print(val)
+        print(value)
 
 
 def _set(set_match, line):
     split = line.split('=')
-    variable = split[0].strip()
+    key = split[0].strip()
     value = split[1].strip()
-    try:
-        value = int(value)
-    except:
-        pass
-    globals()[variable] = value
+    globals()[key] = value
 
 
 def _list(list_match, line):
@@ -76,32 +36,61 @@ def _list(list_match, line):
     globals()[variable] = list
 
 
-def _for(for_match):
-    list = globals()[for_match.group(3)]
-    function = globals()[syntax[for_match.group(1)]['function']]
-    for i in list:
-        if not "_"in i:
-            function(i)
+def _for(for_match, line):
+    getlist = globals()[for_match.group(3).strip()]
+    function_name = for_match.group(1).strip()
+    function = globals()[syntax[function_name]['function']]
+    for i in getlist:
+        function(i)
 
 
 def read(line):
+    list_pattern = '(.*).=.(.*),'
+    set_pattern = '(.*).=.(.*)'
+    for_pattern = '(.*) (.*) dön (.*)'
+    write_pattern = 'yaz (.*)'
     # bir liste ataması yapılıyor ise
-    list_match = re.match(r'(.*).=.(.*),', line)
-    if list_match:
-        print('liste yakaladı')
-        _list(list_match, line)
+    if re.match(list_pattern, line):
+        _list(re.match(list_pattern, line), line)
     # değişkene bir str veya int ataması yapılıyor ise
-    set_match = re.match(r'(.*).=.(.*)', line)
-    if set_match:
-        _set(set_match, line)
+    elif re.match(set_pattern, line):
+        _set(re.match(set_pattern, line), line)
     # bir döngü mevcut ise
-    for_match = re.search(r'(.*) (.*) dön (.*)', line)
-    if for_match:
-        _for(for_match)
+    elif re.match(for_pattern, line):
+        _for(re.match(for_pattern, line), line)
     # ekrana bir şey yazılıyor ise
-    write_match = re.search(r'yaz (.*)', line)
-    if write_match:
+    elif re.match(write_pattern, line):
         _print(line)
+
+
+# def _plus(command):
+#     """ iki ve daha fazla sayıda integer toplanmak üzere gelirse
+#         ögeler ile klasik toplama işlemi yapılıp geri döndürülür.
+#         ögelerden biri string ise toplama mantığından çıkılıp
+#         tüm öğeler string olarak değerlendirilir, birleştirilir
+#         ve geri döndürülür.
+#     """
+#     params = command.replace(' +', '+').replace('+ ', '+').split('+')
+#     for param in params:
+#         try:
+#             param = int(param)
+#         except:
+#             pass
+#     all_integer = True
+#     for param in params:
+#         if not isinstance(param, int):
+#             all_integer = False
+#     if all_integer:
+#         to_run = params[0]
+#         for param in params[1:]:
+#             to_run = to_run + "+" + param
+#         return eval(to_run)
+#     else:
+#         to_run = params[0]
+#         for param in params[1:]:
+#             to_run = to_run + param
+#         return to_run
+
 
 def parser(source):
     return [read(line) for line in source.split("\n") if line != '']
@@ -128,6 +117,7 @@ def huhu():
                 if isinstance(result, str):
                     print(result)
     else:
+        print('huhu!')
         while True:
             command = input('>>> ')
             if command.strip() == "çık":
