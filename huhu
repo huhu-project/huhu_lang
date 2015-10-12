@@ -3,22 +3,20 @@
 
 import sys
 import os
+import re
 
-exec_scope = {}
+
+syntax = {
+    'yaz': {
+        'function': '_print'
+    }
+}
 
 
 def _equal(command):
     variable = command.replace(' =', '=').replace('= ', '=').split('=')
     if len(variable) > 0:
-        exec_scope[variable[0].strip()] = variable[1].strip()
-    else:
-        return {'error': 101}
-
-
-def _write(command):
-    variable_name = command.split('yaz')[1].strip()
-    if variable_name in exec_scope:
-        return exec_scope[variable_name]
+        globals()[variable[0].strip()] = variable[1].strip()
     else:
         return {'error': 101}
 
@@ -31,6 +29,11 @@ def _plus(command):
         ve geri döndürülür.
     """
     params = command.replace(' +', '+').replace('+ ', '+').split('+')
+    for param in params:
+        try:
+            param = int(param)
+        except:
+            pass
     all_integer = True
     for param in params:
         if not isinstance(param, int):
@@ -47,18 +50,58 @@ def _plus(command):
         return to_run
 
 
-def read(line):
-    if "=" in line:
-        _equal(line)
-    if "+" in line:
-        print(_plus(line))
-    elif line[:3] == 'yaz':
-        write = _write(line)
-        if not 'error' in write:
-            return write
+def _print(line):
+    val = line.split('yaz')[1].strip()
+    if val in globals():
+        print(globals()[val])
     else:
-        return line
+        print(val)
 
+
+def _set(set_match, line):
+    split = line.split('=')
+    variable = split[0].strip()
+    value = split[1].strip()
+    try:
+        value = int(value)
+    except:
+        pass
+    globals()[variable] = value
+
+
+def _list(list_match, line):
+    split = line.split('=')
+    variable = split[0].strip()
+    list = [el.strip() for el in split[1].split(",") if el != '']
+    globals()[variable] = list
+
+
+def _for(for_match):
+    list = globals()[for_match.group(3)]
+    function = globals()[syntax[for_match.group(1)]['function']]
+    for i in list:
+        if not "_"in i:
+            function(i)
+
+
+def read(line):
+    # bir liste ataması yapılıyor ise
+    list_match = re.match(r'(.*).=.(.*),', line)
+    if list_match:
+        print('liste yakaladı')
+        _list(list_match, line)
+    # değişkene bir str veya int ataması yapılıyor ise
+    set_match = re.match(r'(.*).=.(.*)', line)
+    if set_match:
+        _set(set_match, line)
+    # bir döngü mevcut ise
+    for_match = re.search(r'(.*) (.*) dön (.*)', line)
+    if for_match:
+        _for(for_match)
+    # ekrana bir şey yazılıyor ise
+    write_match = re.search(r'yaz (.*)', line)
+    if write_match:
+        _print(line)
 
 def parser(source):
     return [read(line) for line in source.split("\n") if line != '']
@@ -85,7 +128,6 @@ def huhu():
                 if isinstance(result, str):
                     print(result)
     else:
-        print("huhu!")
         while True:
             command = input('>>> ')
             if command.strip() == "çık":
