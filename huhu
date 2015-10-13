@@ -17,7 +17,14 @@ def _print(value):
     if value[0:3] == "yaz":
         key = value.split('yaz')[1].strip()
         if value.split('yaz')[1].strip() in globals():
-            print(globals()[key])
+            getval = globals()[key]
+            if isinstance(getval, list):
+                dump = getval[0]
+                for l in getval[1:]:
+                    dump = "%s, %s" % (dump, l)
+                print(dump)
+            else:
+                print(getval)
     else:
         print(value)
 
@@ -42,25 +49,6 @@ def _for(for_match, line):
     function = globals()[syntax[function_name]['function']]
     for i in getlist:
         function(i)
-
-
-def read(line):
-    list_pattern = '(.*).=.(.*),'
-    set_pattern = '(.*).=.(.*)'
-    for_pattern = '(.*) (.*) dön (.*)'
-    write_pattern = 'yaz (.*)'
-    # bir liste ataması yapılıyor ise
-    if re.match(list_pattern, line):
-        _list(re.match(list_pattern, line), line)
-    # değişkene bir str veya int ataması yapılıyor ise
-    elif re.match(set_pattern, line):
-        _set(re.match(set_pattern, line), line)
-    # bir döngü mevcut ise
-    elif re.match(for_pattern, line):
-        _for(re.match(for_pattern, line), line)
-    # ekrana bir şey yazılıyor ise
-    elif re.match(write_pattern, line):
-        _print(line)
 
 
 # def _plus(command):
@@ -90,6 +78,28 @@ def read(line):
 #         for param in params[1:]:
 #             to_run = to_run + param
 #         return to_run
+
+
+
+
+def read(line):
+    list_pattern = '(.*).=.(.*),'
+    set_pattern = '(.*).=.(.*)'
+    for_pattern = '(.*) (.*) dön (.*)'
+    write_pattern = 'yaz (.*)'
+    # bir liste ataması yapılıyor ise
+    if re.match(list_pattern, line):
+        _list(re.match(list_pattern, line), line)
+    # değişkene bir str veya int ataması yapılıyor ise
+    elif re.match(set_pattern, line):
+        _set(re.match(set_pattern, line), line)
+    # bir döngü mevcut ise
+    elif re.match(for_pattern, line):
+        _for(re.match(for_pattern, line), line)
+    # ekrana bir şey yazılıyor ise
+    elif re.match(write_pattern, line):
+        _print(line)
+
 
 
 def parser(source):
