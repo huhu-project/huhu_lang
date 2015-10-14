@@ -51,6 +51,9 @@ def _for(for_match, line):
         function(i)
 
 
+def _condition(line):
+    print("_condition")
+
 # def _plus(command):
 #     """ iki ve daha fazla sayıda integer toplanmak üzere gelirse
 #         ögeler ile klasik toplama işlemi yapılıp geri döndürülür.
@@ -80,13 +83,12 @@ def _for(for_match, line):
 #         return to_run
 
 
-
-
 def read(line):
     list_pattern = '(.*).=.(.*),'
     set_pattern = '(.*).=.(.*)'
     for_pattern = '(.*) (.*) dön (.*)'
     write_pattern = 'yaz (.*)'
+    condition_pattern = 'eğer (.*) ise (.*)'
     # bir liste ataması yapılıyor ise
     if re.match(list_pattern, line):
         _list(re.match(list_pattern, line), line)
@@ -99,7 +101,8 @@ def read(line):
     # ekrana bir şey yazılıyor ise
     elif re.match(write_pattern, line):
         _print(line)
-
+    elif re.match(condition_pattern, line):
+        _condition(line)
 
 
 def parser(source):
