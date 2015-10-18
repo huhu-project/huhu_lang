@@ -22,9 +22,13 @@ yaz değişken
 yaz kelime dön kelimeler
 
 * conditions
-eğer değişken == bu bir değişken ise yaz tamam
+eğer değişken == değişken2 ise yaz eşit
 
 * functions
-fonksiyon fonksiyon_isim > döndür param1 + param2  
+fonksiyon fonksiyon_isim (param1, param2) > döndür param1 + param2  
+
+* range
+sayilar = 1..8
+harfler = a..z
 ```
 if you have any clean syntax idea, please create an issue for discussion.
