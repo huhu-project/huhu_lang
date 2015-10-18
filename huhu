@@ -13,20 +13,23 @@ syntax = {
 }
 
 
-def _print(value):
-    if value[0:3] == "yaz":
-        key = value.split('yaz')[1].strip()
-        if value.split('yaz')[1].strip() in globals():
+def _print(command):
+    if command[0:3] == "yaz":
+        key = command.split('yaz')[1].strip()
+        value = command.split('yaz')[1].strip()
+        if value in globals():
             getval = globals()[key]
             if isinstance(getval, list):
                 dump = getval[0]
                 for l in getval[1:]:
                     dump = "%s, %s" % (dump, l)
-                print(dump)
+                return 'print("%s")' % dump
             else:
-                print(getval)
+                return 'print("%s")' % getval
+        else:
+            return 'print("%s")' % value
     else:
-        print(value)
+        return 'print("%s")' % command
 
 
 def _set(set_match, line):
@@ -44,11 +47,15 @@ def _list(list_match, line):
 
 
 def _for(for_match, line):
-    getlist = globals()[for_match.group(3).strip()]
-    function_name = for_match.group(1).strip()
-    function = globals()[syntax[function_name]['function']]
-    for i in getlist:
-        function(i)
+    try:
+        getlist = globals()[for_match.group(3).strip()]
+        function_name = for_match.group(1).strip()
+        function = globals()[syntax[function_name]['function']]
+        for i in getlist:
+            exec(function(i))
+    except:
+        return "False"
+    return "True"
 
 
 def _condition(line):
@@ -91,25 +98,28 @@ def read(line):
     condition_pattern = 'eğer (.*) ise (.*)'
     # bir liste ataması yapılıyor ise
     if re.match(list_pattern, line):
-        _list(re.match(list_pattern, line), line)
+        line = _list(re.match(list_pattern, line), line)
     # değişkene bir str veya int ataması yapılıyor ise
     elif re.match(set_pattern, line):
-        _set(re.match(set_pattern, line), line)
+        line = _set(re.match(set_pattern, line), line)
     # bir döngü mevcut ise
     elif re.match(for_pattern, line):
-        _for(re.match(for_pattern, line), line)
+        line = _for(re.match(for_pattern, line), line)
     # ekrana bir şey yazılıyor ise
-    elif re.match(write_pattern, line):
-        _print(line)
     elif re.match(condition_pattern, line):
-        _condition(line)
+        line = _condition(line)
+    elif re.match(write_pattern, line):
+        line = _print(line)
+    else:
+        line = "pass"
+    return line
 
 
 def parser(source):
     return [read(line) for line in source.split("\n") if line != '']
 
 
-def huhu():
+def run_huhu():
     if "huhu" in sys.argv:
         sys.argv.remove('huhu')
     if len(sys.argv[1:]) > 0:
@@ -128,7 +138,7 @@ def huhu():
                 break
             for result in parser(source):
                 if isinstance(result, str):
-                    print(result)
+                    exec(result)
     else:
         print('huhu!')
         while True:
@@ -139,7 +149,7 @@ def huhu():
             if isinstance(command, str):
                 result = read(command)
                 if result:
-                    print(result)
+                    exec(result)
 
 if __name__ == "__main__":
-    huhu()
+    run_huhu()
