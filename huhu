@@ -61,33 +61,34 @@ def _for(for_match, line):
 def _condition(line):
     print("_condition")
 
-# def _plus(command):
-#     """ iki ve daha fazla sayıda integer toplanmak üzere gelirse
-#         ögeler ile klasik toplama işlemi yapılıp geri döndürülür.
-#         ögelerden biri string ise toplama mantığından çıkılıp
-#         tüm öğeler string olarak değerlendirilir, birleştirilir
-#         ve geri döndürülür.
-#     """
-#     params = command.replace(' +', '+').replace('+ ', '+').split('+')
-#     for param in params:
-#         try:
-#             param = int(param)
-#         except:
-#             pass
-#     all_integer = True
-#     for param in params:
-#         if not isinstance(param, int):
-#             all_integer = False
-#     if all_integer:
-#         to_run = params[0]
-#         for param in params[1:]:
-#             to_run = to_run + "+" + param
-#         return eval(to_run)
-#     else:
-#         to_run = params[0]
-#         for param in params[1:]:
-#             to_run = to_run + param
-#         return to_run
+
+def _plus(command):
+    """ iki ve daha fazla sayıda integer toplanmak üzere gelirse
+        ögeler ile klasik toplama işlemi yapılıp geri döndürülür.
+        ögelerden biri string ise toplama mantığından çıkılıp
+        tüm öğeler string olarak değerlendirilir, birleştirilir
+        ve geri döndürülür.
+    """
+    params = command.replace(' +', '+').replace('+ ', '+').split('+')
+    for param in params:
+        try:
+            param = int(param)
+        except:
+            pass
+    all_integer = True
+    for param in params:
+        if not isinstance(param, int):
+            all_integer = False
+    if all_integer:
+        to_run = params[0]
+        for param in params[1:]:
+            to_run = to_run + "+" + param
+        return eval(to_run)
+    else:
+        to_run = params[0]
+        for param in params[1:]:
+            to_run = to_run + param
+        return to_run
 
 
 def read(line):
