@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 #-*- coding:utf-8 -*-
 
-import sys
-import os
-import re
-
+import sys,os,re
 
 syntax = {
     'yaz': {
@@ -12,6 +9,12 @@ syntax = {
     }
 }
 
+def is_int(s):
+    try: 
+        int(s)
+        return True
+    except ValueError:
+        return False
 
 def _print(command):
     if command[0:3] == "yaz":
@@ -36,7 +39,19 @@ def _set(set_match, line):
     split = line.split('=')
     key = split[0].strip()
     value = split[1].strip()
-    globals()[key] = value
+    range_pattern = '(.*)\.\.(.*)'
+    if re.match(range_pattern, value):
+        range_split = value.split('..')
+        if is_int(range_split[0]) and is_int(range_split[1]):
+            globals()[key] = list(
+                range(int(range_split[0]), int(range_split[1])+1 ))
+        elif len(range_split[0])==1 and isinstance(range_split[0], str) and isinstance(range_split[1], str):
+            parse1, parse2 = ord(range_split[0][0]), ord(range_split[1][0])+1
+            globals()[key] = [chr(i) for i in list(range(parse1,parse2))]
+        else:
+            globals()[key] = value
+    else:
+        globals()[key] = value
 
 
 def _list(list_match, line):
@@ -51,6 +66,7 @@ def _for(for_match, line):
         getlist = globals()[for_match.group(3).strip()]
         function_name = for_match.group(1).strip()
         function = globals()[syntax[function_name]['function']]
+        print(getlist,function_name,function_name)
         for i in getlist:
             exec(function(i))
     except:
@@ -143,7 +159,11 @@ def run_huhu():
     else:
         print('huhu!')
         while True:
-            command = input('>>> ')
+            try:
+                command = input('>>> ')
+            except:
+                print("\n")
+                return None
             if command.strip() == "çık":
                 print("güle güle :)")
                 break
