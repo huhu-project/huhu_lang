@@ -7,4 +7,9 @@ kelimeler = bu, bir, kelime, listesi
 
 yaz kelime dön kelimeler
 
+rakamlar = 1..100
+
+yaz rakamlar
+
+yaz rakam dön rakamlar
 
