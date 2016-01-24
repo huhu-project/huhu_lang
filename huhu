@@ -17,6 +17,10 @@ def is_int(s):
         return False
 
 def _print(command):
+    """ değişkeni ekrana yazdırır. 
+        liste veya string ise yazar,
+        yok ise doğrudan değeri yazar.
+    """
     if command[0:3] == "yaz":
         key = command.split('yaz')[1].strip()
         value = command.split('yaz')[1].strip()
@@ -36,6 +40,9 @@ def _print(command):
 
 
 def _set(set_match, line):
+    """ değer atama. değişkeşken olarak değer atanabilir
+        veya range ile değer üretilip değişkene atanabilir.
+    """
     split = line.split('=')
     key = split[0].strip()
     value = split[1].strip()
@@ -66,7 +73,6 @@ def _for(for_match, line):
         getlist = globals()[for_match.group(3).strip()]
         function_name = for_match.group(1).strip()
         function = globals()[syntax[function_name]['function']]
-        print(getlist,function_name,function_name)
         for i in getlist:
             exec(function(i))
     except:
