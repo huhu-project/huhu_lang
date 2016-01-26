@@ -62,6 +62,9 @@ def _set(set_match, line):
 
 
 def _list(list_match, line):
+    """ değeri virgülden bölüp liste üretir ve 
+        değişkene atar.
+    """
     split = line.split('=')
     variable = split[0].strip()
     list = [el.strip() for el in split[1].split(",") if el != '']
