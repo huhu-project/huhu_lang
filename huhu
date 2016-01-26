@@ -72,6 +72,9 @@ def _list(list_match, line):
 
 
 def _for(for_match, line):
+    """ atanmış olan listeyi döngüye alır,
+        verilen fonkisyonu uygular.
+    """
     try:
         getlist = globals()[for_match.group(3).strip()]
         function_name = for_match.group(1).strip()
