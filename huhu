@@ -47,19 +47,24 @@ def _set(set_match, line):
     key = split[0].strip()
     value = split[1].strip()
     range_pattern = '(.*)\.\.(.*)'
-    if re.match(range_pattern, value):
-        range_split = value.split('..')
-        if is_int(range_split[0]) and is_int(range_split[1]):
-            globals()[key] = list(
-                range(int(range_split[0]), int(range_split[1])+1 ))
-        elif len(range_split[0])==1 and isinstance(range_split[0], str) and isinstance(range_split[1], str):
-            parse1, parse2 = ord(range_split[0][0]), ord(range_split[1][0])+1
-            globals()[key] = [chr(i) for i in list(range(parse1,parse2))]
-        else:
-            globals()[key] = value
-    else:
-        globals()[key] = value
+    globals()[key] = value
 
+def _range(line):
+    split = line.split('=')
+    key = split[0].strip()
+    value = split[1].strip()
+    range_split = value.split('..')
+    to_return = ","
+    if is_int(range_split[0]) and is_int(range_split[1]):
+        our_list = list(range(int(range_split[0]), int(range_split[1])+1 ))
+        new = to_return.join([str(i) for i in our_list])
+        return "%s = %s" % (key, new)
+    elif len(range_split[0])==1 and isinstance(range_split[0], str) and isinstance(range_split[1], str):
+        parse1, parse2 = ord(range_split[0][0]), ord(range_split[1][0])+1
+        new = to_return.join([chr(i) for i in list(range(parse1,parse2))])
+        return "%s = %s" % (key, new)
+    else:
+        return "%s = %s" % (key, value)
 
 def _list(list_match, line):
     """ değeri virgülden bölüp liste üretir ve 
@@ -120,6 +125,11 @@ def _plus(command):
 
 
 def read(line):
+    # pre_setters
+    range_pattern = '(.*)\.\.(.*)'
+    if re.match(range_pattern, line):
+        line = _range(line)
+    # after line workers
     list_pattern = '(.*).=.(.*),'
     set_pattern = '(.*).=.(.*)'
     for_pattern = '(.*) (.*) dön (.*)'

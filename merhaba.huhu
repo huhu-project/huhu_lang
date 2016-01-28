@@ -1,4 +1,5 @@
 
+
 değişken = bu bir değişken
 
 yaz değişken
@@ -12,4 +13,8 @@ rakamlar = 1..100
 yaz rakamlar
 
 yaz rakam dön rakamlar
+
+harfler = a..z
+
+yaz harfler
 
