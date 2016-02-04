@@ -2,10 +2,14 @@ huhu
 ===================
 simple scripting language & simple interpreter for kids development education
 
-#### * This Project Under Development *
----
+## * This Project Under Development *
 
-This may seem a little crazy. but I just thinking. 
+### Installation
+> git clone git@github.com:huhu-project/huhu_lang.git
+> sudo ln -s ./huhu_lang/huhu ./huhu
+
+### Syntax
+
 This language purposes only to get rid of the complexity and keep It simple development training.
 
 ```sh
