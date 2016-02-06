@@ -25,12 +25,6 @@ yaz değişken
 * looping
 yaz kelime dön kelimeler
 
-* conditions
-eğer değişken == değişken2 ise yaz eşit
-
-* functions
-fonksiyon fonksiyon_isim (param1, param2) > döndür param1 + param2  
-
 * range
 sayilar = 1..8
 harfler = a..z
