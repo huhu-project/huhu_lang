@@ -6,9 +6,11 @@ simple scripting language & simple interpreter for kids development education
 
 ### Installation
 
-> git clone git@github.com:huhu-project/huhu_lang.git
+> wget https://raw.githubusercontent.com/huhu-project/huhu_lang/master/huhu
 
-> sudo ln -s ./huhu_lang/huhu ./huhu
+> sudo ln -s /usr/bin/huhu ./huhu
+
+> rm ./huhu
 
 ### Syntax
 
