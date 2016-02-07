@@ -101,6 +101,8 @@ def _condition(line):
     print("_condition")
 
 def _math(math_pattern, line):
+    """ satır içindeki matematik işlemlerini yapar.
+    """
     print(re.sub(math_pattern, line,  line))
     # to_replace = str(math_match.string)
     # print(to_replace)
