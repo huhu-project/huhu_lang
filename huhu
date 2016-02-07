@@ -51,6 +51,11 @@ def _set(set_match, line):
     globals()[key] = value
 
 def _range(line):
+    """ verilan aralıklarda sayı veya karakter üretir
+    """
+    # letters = ["a","b","c","ç","d","e","f","g","ğ","h","ı","i","j","k","l","m",
+    #             "n","o","ö","p","r","s","ş","t","u","ü","v","y","z"]
+    
     split = line.split('=')
     key = split[0].strip()
     value = split[1].strip()
@@ -96,11 +101,9 @@ def _condition(line):
     print("_condition")
 
 def _math(math_pattern, line):
-    return "6"
     print(re.sub(math_pattern, line,  line))
     # to_replace = str(math_match.string)
     # print(to_replace)
-    # print("4555")
     # return line.replace(to_replace, str(eval(to_replace)))
 
 def _plus(command):
@@ -161,7 +164,7 @@ def read(line):
     elif re.match(write_pattern, line):
         line = _print(line)
     else:
-        line = "pass"
+        line = _print(line)
     return line
 
 
