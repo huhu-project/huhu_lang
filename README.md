@@ -1,6 +1,6 @@
 huhu
 ===================
-simple scripting language & simple interpreter for kids development education
+simple scripting language & simple interpreter for kids education
 
 ## * This Project Under Development *
 
