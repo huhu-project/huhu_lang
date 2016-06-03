@@ -1,5 +1,6 @@
 build.sh
 huhu/
+huhu_clean.c
 *.pyx
 *.pyc
 *.py
