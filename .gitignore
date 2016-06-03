@@ -1,4 +1,4 @@
 build.sh
 huhu/
-.pyx
-.pyc
+*.pyx
+*.pyc
