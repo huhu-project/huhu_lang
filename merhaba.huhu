@@ -17,7 +17,3 @@ yaz(rakam) dön rakamlar
 harfler = a..z
 
 yaz(harfler)
-
-karisik = 1..g
-
-yaz(karisik)
