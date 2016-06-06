@@ -2,22 +2,18 @@
 
 değişken = bu bir değişken
 
-yaz değişken
+yaz(değişken)
 
 kelimeler = bu, bir, kelime, listesi
 
-yaz kelime dön kelimeler
+yaz(kelime) dön kelimeler
 
 rakamlar = 1..100
 
-yaz rakamlar
+yaz(rakamlar)
 
-yaz rakam dön rakamlar
+yaz(rakam) dön rakamlar
 
 harfler = a..z
 
-yaz harfler
-
-karisik = 1..g
-
-yaz karisik
+yaz(harfler)
