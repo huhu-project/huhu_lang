@@ -25,17 +25,17 @@ değişken = bu bir değişken
 liste = bu, bir, liste
 
 * write
-yaz değişken
+yaz(değişken)
 
 * looping
-yaz kelime dön kelimeler
+yaz(kelime dön kelimeler)
 
 * range
 sayilar = 1..8
-yaz sayi dön sayilar
+yaz(sayi dön sayilar)
 
 harfler = a..z
-yaz harf dön harfler
+yaz(harf dön harfler)
 
 ```
 if you have any clean syntax idea, please create an issue for discussion.
