@@ -4,3 +4,6 @@ huhu_clean.c
 *.pyx
 *.pyc
 *.py
+*.deb
+control
+debian
