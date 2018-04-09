@@ -1,9 +1,6 @@
-build.sh
-huhu/
-huhu_clean.c
+.DS_Store
+build/
+dist/
+*.egg-info/
 *.pyx
 *.pyc
-*.py
-*.deb
-control
-debian
