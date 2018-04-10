@@ -8,8 +8,8 @@ except IOError:
 
 setup(
     name="huhu",
-    version="0.0.3",
-    description="shortcut install & freeze pip packages",
+    version="0.0.4",
+    description="An experimental script language for kids, written in Python",
     long_description=long_description,
     author="Mehmet Kose",
     author_email="mehmetkose122@gmail.com",
