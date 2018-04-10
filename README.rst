@@ -1,20 +1,16 @@
 huhu
 ===================
-simple scripting language & simple interpreter for kids education
-
 ## * This Project Under Development *
 
 ### Installation
 
-> wget https://raw.githubusercontent.com/huhu-project/huhu_lang/master/huhu
+pip install huhu
 
-> sudo ln -s /usr/bin/huhu ./huhu
+### If you don't have pip:
 
-> rm ./huhu
+easy_install pip
 
 ### Syntax
-
-This language purposes only to get rid of the complexity and keep It simple development training.
 
 ```sh
 
