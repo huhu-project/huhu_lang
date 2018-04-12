@@ -8,9 +8,10 @@ An experimental script language for kids, written in Python.
 
 Installation
 ------------
+::
+  pip install huhu
 
-pip install huhu
+If you don't have pip
 
-*If you don't have pip*
-
-easy_install pip
+::
+  easy_install pip
